@@ -72,20 +72,21 @@ stdenv.mkDerivation {
 
     makeWrapper $out/opt/uTools/utools $out/bin/utools \
       --add-flags "--no-sandbox" \
-      --set LD_LIBRARY_PATH "${lib.makeLibraryPath runtimeLibs}"
+      --set LD_LIBRARY_PATH "${lib.makeLibraryPath runtimeLibs}" \
+      --set GSETTINGS_SCHEMA_DIR "/run/current-system/sw/share/glib-2.0/schemas"
 
     cat > $out/share/applications/utools.desktop << EOF
-    [Desktop Entry]
-    Name=uTools
-    Comment=Your next-generation productive tool suite
-    Exec=$out/bin/utools %U
-    Icon=utools
-    Terminal=false
-    Type=Application
-    Categories=System;
-    MimeType=x-scheme-handler/utools;
-    StartupWMClass=uTools
-    EOF
+[Desktop Entry]
+Name=uTools
+Comment=Your next-generation productive tool suite
+Exec=$out/bin/utools
+Icon=utools
+Terminal=false
+Type=Application
+Categories=System;
+MimeType=x-scheme-handler/utools;
+StartupWMClass=uTools
+EOF
 
     runHook postInstall
   '';
